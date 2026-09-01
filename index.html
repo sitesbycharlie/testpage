@@ -196,13 +196,26 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 }
 
 /* ── DETAIL VIEW ── */
-#detailView{display:none;padding-top:0}
+#detailView{display:none;padding-top:68px}
 #detailView.show{display:block}
 #browseView.hide{display:none}
 
-.crumb{max-width:1200px;margin:0 auto;padding:96px 48px 0}
-.crumb button{font-family:var(--f-head);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mid);background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:color .2s}
+.crumb{
+  position:sticky;top:68px;z-index:150;
+  background:rgba(10,10,10,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  margin-bottom:20px;
+}
+.crumb-inner{max-width:1200px;margin:0 auto;padding:18px 48px}
+.crumb button{
+  font-family:var(--f-head);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--fg);background:none;border:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;padding:8px 4px;min-height:44px;
+  transition:color .2s;
+}
 .crumb button:hover{color:var(--accent-bright)}
+.crumb button svg{transition:transform .2s}
+.crumb button:hover svg{transform:translateX(-3px)}
 
 .recipe-hero{max-width:1200px;margin:20px auto 0;padding:0 48px}
 .hero-media{
@@ -252,7 +265,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 @media(max-width:900px){
   .recipe-body{grid-template-columns:1fr;padding:40px 20px 70px;gap:36px}
   .ingredients-panel{position:static}
-  .crumb{padding:110px 20px 0}
+  .crumb-inner{padding:14px 20px}
   .recipe-hero{padding:0 20px}
   .hero-media{height:min(65vh,560px)}
   .macro-bar{padding:0 20px}
@@ -300,6 +313,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:48px
 <body>
 
 <div class="nav-drawer" id="navDrawer">
+  <a href="/" onclick="closeDrawer()">Home</a>
   <a href="/programme/" onclick="closeDrawer()">Programme</a>
   <a href="/recipe/" onclick="closeDrawer()">Recipes</a>
   <a href="/#train" class="drawer-cta" onclick="closeDrawer(); scrollToForm(event)">Achieve Your Goals</a>
@@ -308,6 +322,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:48px
 <nav id="mainNav" class="scrolled">
   <a href="/" class="nav-logo">Kass <span>Diarra</span></a>
   <div class="nav-links">
+    <a href="/">Home</a>
     <a href="/programme/" class="nav-programme">Programme</a>
     <a href="/recipe/" class="active">Recipes</a>
     <a href="/#train" class="nav-cta" onclick="scrollToForm(event)">Achieve Your Goals</a>
@@ -350,7 +365,14 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:48px
 
 <!-- ── DETAIL VIEW ── -->
 <div id="detailView">
-  <div class="crumb"><button onclick="showBrowse()">← All recipes</button></div>
+  <div class="crumb">
+    <div class="crumb-inner">
+      <button onclick="showBrowse()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        All Recipes
+      </button>
+    </div>
+  </div>
 
   <section class="recipe-hero">
     <div class="hero-media" id="heroMedia">
@@ -391,7 +413,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:48px
 <footer>
   <span class="footer-logo">Kass <span>Diarra</span></span>
   <ul class="footer-links"><li><a href="https://www.instagram.com/_kassdiarra/" target="_blank" rel="noopener" class="ig-shimmer">Instagram</a></li></ul>
-  <p class="footer-copy">Every rep counts. Every session matters.</p>
+  <p class="footer-copy">Good food. No guesswork.</p>
   <p class="footer-credit">Site by <a href="https://sitesbycharlie.ie" target="_blank" rel="noopener">SitesByCharlie.ie</a></p>
 </footer>
 
