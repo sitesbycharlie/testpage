@@ -175,6 +175,26 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   .recipe-info h3{font-size:16px}
 }
 
+/* MOBILE — smaller horizontal card, less scroll, purple glow border like homepage video cards */
+@media(max-width:720px){
+  .recipe-card{display:flex;align-items:center;gap:0}
+  .recipe-thumb{
+    width:110px;flex-shrink:0;aspect-ratio:9/16;height:auto;
+    border:1.5px solid rgba(157,92,255,.5);
+    box-shadow:0 0 0 1px rgba(157,92,255,.2),0 0 12px rgba(124,58,237,.35),0 0 22px rgba(124,58,237,.15),inset 0 0 14px rgba(124,58,237,.05);
+    animation:video-glow 2.8s ease-in-out infinite;
+    border-radius:.5em 0 0 .5em;
+  }
+  .recipe-info{padding:12px 16px;display:flex;flex-direction:column;justify-content:center;flex:1}
+  .recipe-info h3{font-size:15px;margin-bottom:6px}
+  .cat-tag{top:6px;left:6px;font-size:9px;padding:3px 7px}
+  .play-badge svg{width:26px;height:26px}
+}
+@keyframes video-glow{
+  0%,100%{box-shadow:0 0 0 1px rgba(157,92,255,.2),0 0 12px rgba(124,58,237,.35),0 0 22px rgba(124,58,237,.15),inset 0 0 14px rgba(124,58,237,.05);border-color:rgba(157,92,255,.5)}
+  50%{box-shadow:0 0 0 1px rgba(157,92,255,.4),0 0 18px rgba(157,92,255,.6),0 0 32px rgba(124,58,237,.25),inset 0 0 20px rgba(124,58,237,.08);border-color:rgba(157,92,255,.85)}
+}
+
 /* ── DETAIL VIEW ── */
 #detailView{display:none;padding-top:0}
 #detailView.show{display:block}
@@ -185,17 +205,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .crumb button:hover{color:var(--accent-bright)}
 
 .recipe-hero{max-width:1200px;margin:20px auto 0;padding:0 48px}
-.hero-media{position:relative;border-radius:.8em;overflow:hidden;aspect-ratio:16/8;background:var(--surface2)}
-.hero-media video{width:100%;height:100%;object-fit:cover;display:block}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.9) 0%,rgba(10,10,10,.15) 55%,transparent 100%);pointer-events:none}
-.hero-caption{position:absolute;left:32px;bottom:28px;right:32px;z-index:2}
+.hero-media{
+  position:relative;border-radius:.8em;overflow:hidden;
+  background:var(--surface2);
+  height:min(72vh,640px);
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-backdrop{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:blur(50px) brightness(.5) saturate(1.2);transform:scale(1.3);
+}
+.hero-fg{
+  position:relative;z-index:1;height:100%;max-width:100%;aspect-ratio:9/16;
+  object-fit:cover;display:block;border-radius:.6em;
+  box-shadow:0 10px 50px rgba(0,0,0,.5),0 0 0 1px rgba(240,238,255,.08);
+}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.85) 0%,rgba(10,10,10,.1) 40%,transparent 100%);pointer-events:none;z-index:2}
+.hero-caption{position:absolute;left:32px;bottom:28px;right:32px;z-index:3}
 .hero-caption h1{font-family:var(--f-head);font-weight:900;font-size:clamp(28px,5vw,48px);text-transform:uppercase;line-height:.98;color:#fff}
-.play-btn-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(10,10,10,.55);border:1px solid rgba(240,238,255,.25);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s,background .2s;z-index:2}
+.play-btn-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(10,10,10,.55);border:1px solid rgba(240,238,255,.25);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s,background .2s;z-index:4}
 .play-btn-overlay:hover{transform:translate(-50%,-50%) scale(1.08);background:var(--accent)}
 .play-btn-overlay.hidden{display:none}
 .hero-media.no-video .hero-placeholder{display:flex}
 .hero-media .hero-placeholder{position:absolute;inset:0;display:none;align-items:center;justify-content:center;color:var(--mid);font-family:var(--f-head);text-transform:uppercase;letter-spacing:.05em;font-size:13px;background:var(--surface2);z-index:1}
-.hero-media.no-video video,.hero-media.no-video .play-btn-overlay{display:none}
+.hero-media.no-video .hero-backdrop,.hero-media.no-video .hero-fg,.hero-media.no-video .play-btn-overlay{display:none}
 
 .macro-bar{max-width:1200px;margin:28px auto 0;padding:0 48px;display:flex;gap:14px;flex-wrap:wrap}
 .macro-pill{flex:1;min-width:100px;background:var(--surface);border:1px solid var(--border);border-radius:.5em;padding:14px 16px;text-align:center}
@@ -221,7 +254,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   .ingredients-panel{position:static}
   .crumb{padding:110px 20px 0}
   .recipe-hero{padding:0 20px}
-  .hero-media{aspect-ratio:4/3}
+  .hero-media{height:min(65vh,560px)}
   .macro-bar{padding:0 20px}
 }
 
@@ -248,7 +281,20 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:48px
 .footer-credit{font-size:13px;color:rgba(240,238,255,.3);letter-spacing:.04em;margin-top:4px}
 .footer-credit a{color:rgba(157,92,255,.7);text-decoration:none;font-weight:500}
 .footer-credit a:hover{color:var(--accent-bright)}
-@media(max-width:640px){footer{padding:36px 20px;flex-direction:column;align-items:flex-start}}
+@media(max-width:640px){footer{padding:36px 20px;flex-direction:column;align-items:center;text-align:center}}
+
+/* ── INSTAGRAM SHIMMER (exact copy) ── */
+.ig-shimmer{
+  background:linear-gradient(90deg,rgba(107,107,122,.8) 0%,rgba(107,107,122,.8) 28%,rgba(255,255,255,1) 42%,rgba(195,130,255,1) 50%,rgba(255,255,255,1) 58%,rgba(107,107,122,.8) 72%,rgba(107,107,122,.8) 100%);
+  background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:ig-sh 3s ease-in-out infinite;
+  filter:drop-shadow(0 0 4px rgba(157,92,255,.35));
+}
+.ig-shimmer:hover{filter:drop-shadow(0 0 8px rgba(157,92,255,.8))}
+@keyframes ig-sh{0%{background-position:150% center}100%{background-position:-50% center}}
+@supports not(-webkit-background-clip:text){
+  .ig-shimmer{background:none;-webkit-text-fill-color:unset;color:var(--accent-bright)!important;animation:none;filter:none}
+}
 </style>
 </head>
 <body>
@@ -309,7 +355,8 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:48px
   <section class="recipe-hero">
     <div class="hero-media" id="heroMedia">
       <div class="hero-placeholder">Video coming soon</div>
-      <video id="heroVideo" playsinline preload="metadata"></video>
+      <video class="hero-backdrop" id="heroBackdrop" muted playsinline preload="metadata" aria-hidden="true"></video>
+      <video class="hero-fg" id="heroVideo" playsinline preload="metadata"></video>
       <div class="hero-overlay"></div>
       <div class="play-btn-overlay" id="playBtn" onclick="playHeroVideo()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
@@ -343,7 +390,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:48px
 
 <footer>
   <span class="footer-logo">Kass <span>Diarra</span></span>
-  <ul class="footer-links"><li><a href="https://www.instagram.com/_kassdiarra/" target="_blank" rel="noopener">Instagram</a></li></ul>
+  <ul class="footer-links"><li><a href="https://www.instagram.com/_kassdiarra/" target="_blank" rel="noopener" class="ig-shimmer">Instagram</a></li></ul>
   <p class="footer-copy">Every rep counts. Every session matters.</p>
   <p class="footer-credit">Site by <a href="https://sitesbycharlie.ie" target="_blank" rel="noopener">SitesByCharlie.ie</a></p>
 </footer>
@@ -489,6 +536,7 @@ colTabBtns.forEach(btn=>{
 const browseView = document.getElementById('browseView');
 const detailView = document.getElementById('detailView');
 const heroVideo = document.getElementById('heroVideo');
+const heroBackdrop = document.getElementById('heroBackdrop');
 const playBtn = document.getElementById('playBtn');
 
 window.showDetail = function(slug){
@@ -512,6 +560,9 @@ window.showDetail = function(slug){
   heroVideo.onerror = function(){ heroMedia.classList.add('no-video'); };
   heroVideo.src = r.video;
   heroVideo.load();
+  heroBackdrop.pause();
+  heroBackdrop.src = r.video;
+  heroBackdrop.load();
   playBtn.classList.remove('hidden');
 
   browseView.classList.add('hide');
@@ -522,6 +573,7 @@ window.showDetail = function(slug){
 
 window.showBrowse = function(){
   heroVideo.pause();
+  heroBackdrop.pause();
   browseView.classList.remove('hide');
   detailView.classList.remove('show');
   window.scrollTo({top:0, behavior:'instant'});
@@ -531,6 +583,7 @@ window.showBrowse = function(){
 window.playHeroVideo = function(){
   heroVideo.controls = true;
   heroVideo.play();
+  heroBackdrop.play();
   playBtn.classList.add('hidden');
 };
 
